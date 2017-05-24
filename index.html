@@ -13,26 +13,27 @@
       }
       .screen-text
       {
-        color:gray;font-size: medium;
+        color: #111;
+    font-size: medium;
+    text-align: center;
+    line-height: 95px;
       }
     </style>
   </head>
   <body style="">
+    <h1 style="text-align:center;">Tetris Game in Javascript!</h1>
+    <canvas height="500" width="250" id="tetris-canvas" style="margin-left:35%; float: left;border: 2px solid #d4d4d4;touch-action: none;background: beige;user-select: none;-webkit-user-drag: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+    <div style="display:inline;float:left;border: 2px solid #f1da14;background: rgba(255, 235, 59, 0.4);">
+        <div id="score" class="screen-text">Score: 0 pts</div>
+        <div id="streak" class="screen-text">Streak: 0</div>
+        <div id="level" class="screen-text">Level: 1 </div>
+        <div id="" class="screen-text">Next</div>
+          <br>
+        <canvas id="next" height="100px" width="100px" style="float:left;"></canvas>
+    </div>
     
-    <canvas id="tetris-canvas" style="border:0px solid;    position: absolute;
-    left: 0;
-    top: 0;
-    height:100%;
-    width:100%;
-    "></canvas>
-    
-  <div id="score"  class="screen-text">Score: 0 pts</div>
-  <div id="streak" class="screen-text">Streak: 0</div>
-  <div id="level"  class="screen-text">Level: 1 </div>
-  <div id="" class="screen-text">Next
-<br/>
-<canvas id="next" height="100px" width="100px" style=""></canvas>
-</div>
+  
+
 
 <audio id="rotate">
   <source src="sfx/SFX_PieceRotateLR.ogg" type="audio/ogg">
@@ -391,10 +392,11 @@ function initCanvas()
         canvas = document.getElementById('tetris-canvas');
         if (canvas.getContext)
         {
+        
           ctx = canvas.getContext("2d");
-          window.addEventListener('resize', resizeCanvas, false);
-          window.addEventListener('orientationchange', resizeCanvas, false);
-          resizeCanvas();
+          // window.addEventListener('resize', resizeCanvas, false);
+          // window.addEventListener('orientationchange', resizeCanvas, false);
+          // resizeCanvas();
         }
 }
  
@@ -416,12 +418,15 @@ function intiGame()
   row:10,
   col:10,
   board:null, //2d array
-  cellSize: parseInt (canvas.width/12),
+  cellSize:null,
   intervalId:null
   
 };
-game.row=parseInt(canvas.height/game.cellSize)-1;
-game.col=parseInt(canvas.width/game.cellSize)-1;
+game.row=20;//parseInt(canvas.height/game.cellSize)-1;
+game.col=10;//parseInt(canvas.width/game.cellSize)-1;
+game.cellSize=25;
+canvas.height=game.row*game.cellSize;
+canvas.width=game.col*game.cellSize;
 player=
 {
   //defaults
@@ -829,10 +834,12 @@ function dropPiece()
             timer.set_interval(1050-(game.level*100));
             playSound('level-up');
       }
-      //update score and level
+          //update score and level
           document.getElementById('score').innerHTML="Score: "+game.score+" pts";
           document.getElementById('level').innerHTML="Level: "+game.level+"";
           document.getElementById('streak').innerHTML="Streak: "+game.streak+"";
+          
+          
           
       spawnPiece();
       drawMatrix('board');
